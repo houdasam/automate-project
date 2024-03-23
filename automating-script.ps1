@@ -55,6 +55,8 @@ try {
         
         if ($response) {
             Write-Host "Repository created successfully." -ForegroundColor Green
+
+            #Creating a local Git repository
             if(Get-Command git -ErrorAction SilentlyContinue){
                 Write-Host "Git is installed. Initializing a new Git Repository." -ForegroundColor Green
                 git init
@@ -62,6 +64,11 @@ try {
             else{
                 Write-Host "Git is not installed." -ForegroundColor Red
             }
+
+            #Creating the .gitignore file
+            Write-Host "Creating the .gitignore file"
+            New-Item -Path $PWD/.gitignore -ItemType File 
+
             # Check if 'code' command is available
             if (Get-Command code -ErrorAction SilentlyContinue) {
                 Write-Host "Visual Studio Code is installed. Opening the current directory." -ForegroundColor Green
