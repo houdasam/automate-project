@@ -54,9 +54,25 @@ try {
         $response = Invoke-RestMethod -Uri $uri -Method Post -Headers @{Authorization = "token $PAT"} -Body $payload -ContentType "application/json"
         
         if ($response) {
-            Write-Host "Repository created successfully."
+            Write-Host "Repository created successfully." -ForegroundColor Green
+            if(Get-Command git -ErrorAction SilentlyContinue){
+                Write-Host "Git is installed. Initializing a new Git Repository." -ForegroundColor Green
+                git init
+            }
+            else{
+                Write-Host "Git is not installed." -ForegroundColor Red
+            }
+            # Check if 'code' command is available
+            if (Get-Command code -ErrorAction SilentlyContinue) {
+                Write-Host "Visual Studio Code is installed. Opening the current directory." -ForegroundColor Green
+                code .
+            } else {
+                Write-Host "Visual Studio Code is not installed." -ForegroundColor Red
+                # You can provide an alternative action here if desired
+            }
+
         } else {
-            Write-Host "Failed to create repository."
+            Write-Host "Failed to create repository." -ForegroundColor Red
         }
     } else {
         Write-Host "An unexpected error occurred while checking repository existence. Status code: $($_.Exception.Response.StatusCode.value__)"
