@@ -2,6 +2,14 @@ Write-Host "*******************Creating the folder step*******************"
 
 # Passing the name of the project as an argument
 $project_name = $args[0]
+
+#Test if the folder already exists 
+while(Test-Path $PWD/$project_name ){
+    Write-Host "Folder exists, Please provide another name : "  -ForegroundColor Red -NoNewline
+    $project_name = Read-Host 
+
+}
+
 mkdir $project_name
 cd $project_name
 Write-Host "*******************Creating the repository step*******************"
