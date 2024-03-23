@@ -1,19 +1,19 @@
 Write-Host "*******************Creating the folder step*******************"
 
-#Passing the name of the project as an argument
+# Passing the name of the project as an argument
 $project_name = $args[0]
 mkdir $project_name
 cd $project_name
 Write-Host "*******************Creating the repository step*******************"
 
-#Github username and personal access token
+# Github username and personal access token
 $PAT = Read-Host "Please enter your Personal Access Token"
 $username = Read-Host "Please enter your GitHub username"
 
-#Base URL for GitHub API
+# Base URL for GitHub API
 $baseUrl = "https://api.github.com"
 
-#Choose the visibility of the repo (private or public)
+# Choose the visibility of the repo (private or public)
 $visibility = Read-Host "Should the repository be public or private ? (Enter 'public' or 'private')"
 while($visibility -ne "public" -and $visibility -ne "private"){
     $visibility = Read-Host "Should the repository be public or private"
