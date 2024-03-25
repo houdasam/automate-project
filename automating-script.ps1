@@ -15,6 +15,21 @@ function CheckInstallation {
     }
 }
 
+#Function to create the project folder
+function CreateProjectFolder{
+    param(
+        [string]$projectName
+    )
+    # Test if the folder already exists
+    while (Test-Path -Path $PWD/$projectName) {
+        Write-Host "Folder exists. Please provide another name: " -ForegroundColor Red -NoNewline
+        $projectName = Read-Host
+    }
+    # Create project directory
+    mkdir $projectName
+    cd $projectName
+}
+
 #For node projects 
 if($project_type -eq "node"){
     $isNodeInstalled = CheckInstallation -applicationName "node"
@@ -29,20 +44,12 @@ if($project_type -eq "node"){
     }
     else{   
         Write-Host "*******************Creating the folder step*******************"
-        #Test if the folder already exists 
-        while(Test-Path $PWD/$project_name ){
-            Write-Host "Folder exists, Please provide another name : "  -ForegroundColor Red -NoNewline
-            $project_name = Read-Host 
-        }
-
-        mkdir $project_name
-        cd $project_name
+        CreateProjectFolder -projectName $project_name
 
         Write-Host "*******************Initiliazing the node project*******************"
         npm init -y 
 
         Write-Host "*******************Creating the repository step*******************"
-    
         # Github username and personal access token
         $PAT = Read-Host "Please enter your Personal Access Token"
         $username = Read-Host "Please enter your GitHub username"
@@ -119,17 +126,9 @@ if($project_type -eq "node"){
 }
 elseif ($project_type -eq "spring-boot") {
     Write-Host "*******************Creating the folder step*******************"
+    CreateProjectFolder -projectName $project_name
 
-    #Test if the folder already exists 
-    while(Test-Path $PWD/$project_name ){
-        Write-Host "Folder exists, Please provide another name : "  -ForegroundColor Red -NoNewline
-        $project_name = Read-Host 
-    }
-
-    mkdir $project_name
-    cd $project_name
     Write-Host "*****************Spring Boot Project Metadata*****************"
-
     #Defining the project parameters
     $groupId = Read-Host "Please provide the group "
     $artifactId = Read-Host "Please provide the artifact"
